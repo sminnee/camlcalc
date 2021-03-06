@@ -1,0 +1,8 @@
+price = 350000
+down_payment = 0.2 * price
+finance_amount = price - down_payment
+interest_rate  = 0.037
+term = 30
+n = term * 12
+r = interest_rate / 12
+monthly_payment = r / (1 - (1+r)^(-n)) * finance_amount
