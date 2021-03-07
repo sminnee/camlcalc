@@ -1,0 +1,10 @@
+(library
+ (name camlcalc)
+ (modules Expression Parser Lexer)
+ (libraries core))
+
+(ocamllex lexer)
+
+(menhir
+  (modules parser))
+

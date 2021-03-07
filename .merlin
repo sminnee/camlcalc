@@ -1,0 +1,5 @@
+S lib
+
+B _build/default/lib
+
+PKG core menhir
