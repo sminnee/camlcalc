@@ -1,7 +1,9 @@
-(library
- (name camlcalc)
- (modules Expression Parser Lexer)
- (libraries core))
+(executable
+    (name App)
+    (package camlcalc)
+    (preprocess (pps brisk-reconciler.ppx))
+    (public_name App)
+    (libraries core Revery))
 
 (ocamllex lexer)
 

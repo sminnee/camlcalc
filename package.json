@@ -1,0 +1,33 @@
+{
+  "name": "camlcalc",
+  "version": "0.0.1",
+  "description": "A notebook calculator and learn-OCaml project",
+  "license": "MIT",
+  "scripts": {
+    "format": "bash -c \"refmt --in-place **/*.re\"",
+    "run": "esy x App"
+  },
+  "esy": {
+    "build": "dune build -p camlcalc",
+    "buildsInSource": "_build"
+  },
+  "revery-packager": {
+    "bundleName": "CamlCalc",
+    "bundleId": "ee.sminn.camlcalc",
+    "displayName": "CamlCalc",
+    "mainExecutable": "App",
+    "darwin": { "packages": [ "tar", "dmg" ] }
+  },
+  "dependencies": {
+    "@opam/core": "*",
+    "@opam/dune": "2.6.0",
+    "@revery/timber": "*",
+    "esy-macdylibbundler": "*",
+    "revery": "revery-ui/revery"
+  },
+  "devDependencies": {
+    "ocaml": "~4.11.1",
+    "@opam/ocaml-lsp-server":
+      "ocaml/ocaml-lsp:ocaml-lsp-server.opam#cb8aba2238ba5b0e5a6fe0a3180f25077496f75a"
+  }
+}

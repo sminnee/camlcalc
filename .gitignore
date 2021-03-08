@@ -1,1 +1,6 @@
 _build/
+_esy/
+esy.lock/
+camlcalc.install
+src/.merlin
+bin/.merlin
