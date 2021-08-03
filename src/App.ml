@@ -2,14 +2,15 @@ open Revery
 open Revery.UI
 open Revery.UI.Components
 
-module Styles = struct
-  open Style
+(* More concise syntax for building apps *)
+let input_el ?value ?onChange=fun (_, _) -> () = ((Input.createElement ~value ~onChange ()) [@JSX])
+let text_el ~fontSize ~style ~text = ((Text.createElement ~fontSize ~style ~text ()) [@JSX])
+let center_el children = ((Center.createElement ~children:(Brisk_reconciler.listToElement children) ()) [@JSX])
 
-  let text = [
-    marginTop 24;
-    color (Color.hex "#FFF");
-  ]
-end
+
+let container_el width height children = ((Container.createElement ~width ~height ~children:(Brisk_reconciler.listToElement children) ()) [@JSX])
+let column_el children = ((Column.createElement ~children:(Brisk_reconciler.listToElement children) ()) [@JSX])
+let row_el children = ((Row.createElement ~children:(Brisk_reconciler.listToElement children) ()) [@JSX])
 
 let%component main () =
   let%hook (expr, setExpr) = React.Hooks.state "3 + 2" in
@@ -23,20 +24,26 @@ let%component main () =
       Float.to_string (Expression.eval (parse x))
     with e ->  Printexc.to_string e in
 
-  ((Center.createElement
-    ~children: [
-      ((Input.createElement
-        ~value: expr
-        ~onChange: update
-      ()) [@JSX]);
-
-      ((Text.createElement
-        ~fontSize: 16.
-        ~style: Styles.text
-        ~text: (parsed expr)
-      ()) [@JSX ]);
+    container_el 512 384 [
+      row_el [
+        input_el
+          ~value: expr
+          ~onChange: update
+          ~style: Style.[
+            width 256
+          ];
+        text_el
+          ~fontSize: 16.
+          ~style: Style.[
+            width 256;
+            marginTop 24;
+            color (Color.hex "#FFF");
+          ]
+          ~text: (parsed expr);
+      ];
     ]
-  ()) [@JSX ])
+let main_el =
+    ((main ~children:[] ())[@JSX ])
 
 let init app =
   Revery.App.initConsole ();
@@ -52,6 +59,6 @@ let init app =
                           ~backgroundColor:(Color.hex "#AAF")
                           ~width:512 ~height:384 ()) in
     let _update =
-      (UI.start win ((main ~children:[] ())[@JSX ]) : Revery.UI.renderFunction) in
+      (UI.start win main_el : Revery.UI.renderFunction) in
     ())
 ;;App.start init
